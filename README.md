@@ -1,31 +1,45 @@
 # pipcontrol
 
-This is a python module pip controller package
-
-This package is developed for using pip module in python code
-
-## How to work
-
-get list of installed packages from pip list
-
-check package is installed and installing package if not installed
+This package is developed for automation of pip install
 
 ## How to use
 
 ```python
-import pipcontrol
-# python_cmd : optional
+# list of packages
+packages = ["python-crontab", "requests", "psutil", "selenium==4.8"]
 
-pipcontrol.install(package_names=["package1", "package2"], python_cmd="python3.10")
-pipcontrol.update(package_names=["package1", "package2"], python_cmd="python3.10")
-pipcontrol.uninstall(package_names=["package1", "package2"], python_cmd="python3.10")
+# fuctions
+# pipcontrol = PipControl(__file__)
+# pipcontrol.install(packages)
+# pipcontrol.update(packages)
+# pipcontrol.uninstall(packages)
+# pipcontrol.requirement_freeze()
+# pipcontrol.requirement_install()
+# pipcontrol.requirement_unistall()
 
-from os.path import dirname, abspath
+# Run in global python evironment 1
+with PipControl(__file__) as pip1:
+    pip1.install(packages)
 
-ABS_PATH = dirname(abspath(__file__))
+# # Run in global python evironment 2
+# with PipControl(__file__, packages, "test.py test2"):
+#     pass  # install packages and run file in __init__
 
-pipcontrol.requirement_freeze(abs_path=ABS_PATH, python_cmd="python3.10")
-pipcontrol.requirement_install(abs_path=ABS_PATH, python_cmd="python3.10")
-pipcontrol.requirement_uninstall(abs_path=ABS_PATH, python_cmd="python3.10")
+# Run in venv1
+# ! Run in virtual environment python
+pipv_1 = PipControl(__file__, venv_folder="venv1")
+pipv_1.setup_venv()
+pipv_1.install(packages)
+pipv_1.run("test.py venv_test1")
+pipv_1.delete_venv()
+
+# Run in venv2
+with PipControl(__file__, venv_folder="venv2", venv=True) as pipv_2:
+    pipv_2.install(packages)
+    pipv_2.run("test.py venv_test2")
+
+# Run in venv3
+with PipControl(__file__, packages, "test.py venv_test3", "venv3", True):
+    pass
 
 ```

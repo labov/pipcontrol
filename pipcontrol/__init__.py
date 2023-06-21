@@ -19,12 +19,4 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-from .pipcontrol import *
-
-__all__ = [
-    "install",
-    "uninstall",
-    "requirement_install",
-    "requirement_uninstall",
-    "requirement_freeze",
-]
+from pipcontrol import PipControl
